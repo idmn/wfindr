@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# tries to turn input to a regex of type\n# [<list of characters>]\ntoCharListRegex <- function(x){\n    x <- as.character(x)\n    x <- strsplit(x, \"\") %>%\n        unlist() %>%\n        unique() %>%\n        sort() %>%\n        paste(collapse = \"\")\n    if (x == \"\") return(x)\n    return(paste0(\"[\", x, \"]\"))\n}\n\n# turns model with specified allowed and banned characters to\n# a single regex\nmodelToRegex <- function(model = \"*\", allow = lttrs, ban = \"\"){\n    allow %<>% toCharListRegex()\n    ban %<>% toCharListRegex()\n    charListRegex <- gsub(ban, \"\", allow)\n\n    ##check if model is valid\n\n    model %>%\n        gsub(\"\\\\.\", charListRegex, .) %>%\n        gsub(\"\\\\*\", paste0(charListRegex,\"*\"), .) %>%\n        paste0(\"^\", ., \"$\")\n}\n\n\n\n",
+    "created" : 1465117692168.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4194106128",
+    "id" : "E599923F",
+    "lastKnownWriteTime" : 1465117678,
+    "last_content_update" : 1465117678,
+    "path" : "D:/Projects/wfindr/R/modelToRegex.R",
+    "project_path" : "R/modelToRegex.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
