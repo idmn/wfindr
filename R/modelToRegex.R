@@ -1,3 +1,5 @@
+# (?=^([^a]*a[^a]*){3}$)(?=^([^b]*b[^b]*){3}$)pa.*
+
 # tries to turn input to a regex of type
 # [<list of characters>]
 toCharListRegex <- function(x){
@@ -13,7 +15,8 @@ toCharListRegex <- function(x){
 
 # turns model with specified allowed and banned characters to
 # a single regex
-modelToRegex <- function(model = "*", allow = lttrs, ban = ""){
+modelToRegex <- function(model = "*", allow = lttrs, ban = "",
+                         mode = "usual"){
     allow %<>% toCharListRegex()
     ban %<>% toCharListRegex()
     charListRegex <- gsub(ban, "", allow)
@@ -24,6 +27,11 @@ modelToRegex <- function(model = "*", allow = lttrs, ban = ""){
         gsub("\\.", charListRegex, .) %>%
         gsub("\\*", paste0(charListRegex,"*"), .) %>%
         paste0("^", ., "$")
+}
+
+scrabbleRegex <- function(allow){
+    alw <- allow %>% strsplit("") %>% unlist() %>% table()
+    alw
 }
 
 
