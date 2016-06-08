@@ -29,9 +29,26 @@ modelToRegex <- function(model = "*", allow = lttrs, ban = "",
         paste0("^", ., "$")
 }
 
-scrabbleRegex <- function(allow){
-    alw <- allow %>% strsplit("") %>% unlist() %>% table()
-    alw
+charCount <- function(x){
+    chars <- x %>% unlist() %>% strsplit("") %>% unlist()
+    if(length(chars) == 0) return(data.frame(char = character(0),
+                                             count = integer(0)))
+
+    chars %>% table %>% as.data.frame() %>% `names<-`(c('char','count'))
+}
+
+f <- function(allow = letters, ban = character(0), mode = "usual"){
+    allow %<>% charCount()
+    ban %<>% charCount()
+    names(allow) <- c("char", "allow.count")
+    names(ban) <- c("char", "ban.count")
+    allow_ban <- merge(allow, ban, all.x = T)
+    allow_ban[is.na(allow_ban)] <- 0
+    switch(mode,
+           "usual" =
+           )
+    allow_ban
+
 }
 
 
