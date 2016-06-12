@@ -1,55 +1,55 @@
 # (?=^([^a]*a[^a]*){3}$)(?=^([^b]*b[^b]*){3}$)pa.*
+model_to_regex <- function(model = "*", allow = letters, ban = character(0),
+                         type = "usual"){
+    # check model validity
+    model.msg <- "Wrong model. Model should be a string. Allowed characters are '.', '*' and lower case letters."
+    model.allowed <- c(letters, ".", "*")
+    if(!is.character(model)) stop(model.msg)
+    if(length(model)!=1)     stop(model.msg)
+    chars <- strsplit(model, "") %>% unlist() %>% unique()
+    if (sum(!(chars %in% model.allowed)) > 0) stop(model.msg)
+    # check mode validity
+    type <- match.arg(type, c("usual", "scrabble", "anagram"))
 
-# tries to turn input to a regex of type
-# [<list of characters>]
-toCharListRegex <- function(x){
-    x <- as.character(x)
-    x <- strsplit(x, "") %>%
-        unlist() %>%
-        unique() %>%
-        sort() %>%
-        paste(collapse = "")
-    if (x == "") return(x)
-    return(paste0("[", x, "]"))
-}
+    allow %<>% char_count()
+    ban %<>% char_count()
+    names(allow) <- c("char", "allow")
+    names(ban) <- c("char", "ban")
+    char.spec <- merge(allow, ban, all.x = T)
+    char.spec[is.na(char.spec)] <- 0
 
-# turns model with specified allowed and banned characters to
-# a single regex
-modelToRegex <- function(model = "*", allow = lttrs, ban = "",
-                         mode = "usual"){
-    allow %<>% toCharListRegex()
-    ban %<>% toCharListRegex()
-    charListRegex <- gsub(ban, "", allow)
+    if (type == "usual"){
+        char.spec %<>% mutate(max = allow & !ban)
+    }else{
+        char.spec %<>% mutate(max = pmax(allow - ban, 0))
+    }
+    char.spec %<>% select(char, max)
+    char.spec %<>% filter(max > 0)
 
-    ##check if model is valid
+    chars.r <- paste(char.spec$char, collapse = "") %>%
+        paste0("[", ., "]")
 
-    model %>%
-        gsub("\\.", charListRegex, .) %>%
-        gsub("\\*", paste0(charListRegex,"*"), .) %>%
+    regex <- model %>%
+        gsub("\\.", chars.r, .) %>%
+        gsub("\\*", paste0(chars.r,"*"), .) %>%
         paste0("^", ., "$")
+
+    if (type != "usual"){
+        char.spec %<>% mutate(
+            look.ahead = paste0("([^", char, "]*", char, "[^", char, "]*)"))
+    }
+    switch (type,
+        scrabble = {
+            char.spec %<>% mutate(
+                look.ahead = paste0("(?=^((", look.ahead, "{", 1, ",", max, "})|([^",
+                                    char, "]*))$)"))
+        },
+        anagram = {
+            char.spec %<>% mutate(
+                look.ahead = paste0("(?=^", look.ahead, "{", max, "}$)"))
+        }
+    )
+
+    regex <- paste(char.spec$look.ahead, collapse = "") %>% paste0(regex)
+    regex
 }
-
-charCount <- function(x){
-    chars <- x %>% unlist() %>% strsplit("") %>% unlist()
-    if(length(chars) == 0) return(data.frame(char = character(0),
-                                             count = integer(0)))
-
-    chars %>% table %>% as.data.frame() %>% `names<-`(c('char','count'))
-}
-
-f <- function(allow = letters, ban = character(0), mode = "usual"){
-    allow %<>% charCount()
-    ban %<>% charCount()
-    names(allow) <- c("char", "allow.count")
-    names(ban) <- c("char", "ban.count")
-    allow_ban <- merge(allow, ban, all.x = T)
-    allow_ban[is.na(allow_ban)] <- 0
-    switch(mode,
-           "usual" =
-           )
-    allow_ban
-
-}
-
-
-
