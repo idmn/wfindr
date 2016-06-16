@@ -1,13 +1,13 @@
 Package: wfindr
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1
+Version: Version: 0.1.0
 Date: 2016-06-07
-Author: Who wrote it
+Author: Iaroslav Domin
 Maintainer: Who to complain to <yourfault@somewhere.net>
-=======
-Version: 0.1.0
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Authors@R: person("Iaroslav", "Domin", email = "ya.domin@gmail.com", role = c("aut", "cre"))
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
-LazyData: TRUE
+License: MIT
+Imports:
+    dplyr,
+    magrittr

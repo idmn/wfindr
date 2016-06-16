@@ -1,15 +1,18 @@
-# (?=^([^a]*a[^a]*){3}$)(?=^([^b]*b[^b]*){3}$)pa.*
+#' @export
 model_to_regex <- function(model = "*", allow = letters, ban = character(0),
                          type = "usual"){
     # check model validity
+    # consider allowing constructions like .{number, number}
     model.msg <- "Wrong model. Model should be a string. Allowed characters are '.', '*' and lower case letters."
     model.allowed <- c(letters, ".", "*")
     if(!is.character(model)) stop(model.msg)
     if(length(model)!=1)     stop(model.msg)
     chars <- strsplit(model, "") %>% unlist() %>% unique()
     if (sum(!(chars %in% model.allowed)) > 0) stop(model.msg)
-    # check mode validity
+    # check type validity
     type <- match.arg(type, c("usual", "scrabble", "anagram"))
+
+    ##check also words validity
 
     allow %<>% char_count()
     ban %<>% char_count()
@@ -19,12 +22,12 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
     char.spec[is.na(char.spec)] <- 0
 
     if (type == "usual"){
-        char.spec %<>% mutate(max = allow & !ban)
+        char.spec %<>% dplyr::mutate(max = allow & !ban)
     }else{
-        char.spec %<>% mutate(max = pmax(allow - ban, 0))
+        char.spec %<>% dplyr::mutate(max = pmax(allow - ban, 0))
     }
-    char.spec %<>% select(char, max)
-    char.spec %<>% filter(max > 0)
+    char.spec %<>% dplyr::select(char, max)
+    char.spec %<>% dplyr::filter(max > 0)
 
     chars.r <- paste(char.spec$char, collapse = "") %>%
         paste0("[", ., "]")
@@ -35,17 +38,17 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
         paste0("^", ., "$")
 
     if (type != "usual"){
-        char.spec %<>% mutate(
+        char.spec %<>% dplyr::mutate(
             look.ahead = paste0("([^", char, "]*", char, "[^", char, "]*)"))
     }
     switch (type,
         scrabble = {
-            char.spec %<>% mutate(
+            char.spec %<>% dplyr::mutate(
                 look.ahead = paste0("(?=^((", look.ahead, "{", 1, ",", max, "})|([^",
                                     char, "]*))$)"))
         },
         anagram = {
-            char.spec %<>% mutate(
+            char.spec %<>% dplyr::mutate(
                 look.ahead = paste0("(?=^", look.ahead, "{", max, "}$)"))
         }
     )
