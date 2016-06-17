@@ -1,4 +1,16 @@
-# (?=^([^a]*a[^a]*){3}$)(?=^([^b]*b[^b]*){3}$)pa.*
+#' Build a regular expression to fit chosen parameters
+#' @param model - model...
+#' @param allow - characters allowed to be in a word. Can be listed in a
+#' single string or as vector ...
+#' @param ban - characters not allowed to be in a word.
+#' @param type - can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
+#' match.arg is used ...
+#'
+#' @export
+#' @examples
+#' model_to_regex("w..d")
+#' model_to_regex(allow = "thing", type = "scrabble")
+#' model_to_regex(allow = "thing", type = "anagram")
 model_to_regex <- function(model = "*", allow = letters, ban = character(0),
                          type = "usual"){
     # check model validity

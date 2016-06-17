@@ -1,13 +1,12 @@
 Package: wfindr
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1
-Date: 2016-06-07
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-=======
+Title: Word finding tools
 Version: 0.1.0
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
+Date: 2016-06-07
+Authors@R: person("Iaroslav", "Domin", email = "ya.domin@gmail.com", role = c("aut", "cre"))
+Description: Provides something ...
 License: What license is it under?
 LazyData: TRUE
+Imports:
+    dplyr,
+    magrittr
+RoxygenNote: 5.0.1
