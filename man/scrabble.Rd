@@ -4,7 +4,7 @@
 \alias{scrabble}
 \title{Find words that can be constructed from the specified letters}
 \usage{
-scrabble(x, model = "*")
+scrabble(allow, model = "*", ban = character(0), words = words.eng)
 }
 \description{
 Find words that can be constructed from the specified letters

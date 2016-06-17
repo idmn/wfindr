@@ -4,7 +4,7 @@
 \alias{anagram}
 \title{Find anagrams ...}
 \usage{
-anagram(x)
+anagram(allow, model = "*", words = words.eng)
 }
 \description{
 Find anagrams ...

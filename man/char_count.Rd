@@ -10,7 +10,7 @@ char_count(x)
 \item{x}{- character vector}
 }
 \value{
-dataframe
+data.frame with two columns: charater and number of its occurencies.
 }
 \description{
 Characters count
