@@ -7,13 +7,14 @@
 char_count(x)
 }
 \arguments{
-\item{x}{- character vector}
+\item{x}{- character vector, or a list that can be unlisted to a character vector.}
 }
 \value{
-data.frame with two columns: charater and number of its occurencies.
+data.frame with two columns: \code{char} - character and \code{count} -
+number of it's occurencies.
 }
 \description{
-Characters count
+Calculates character frequencies in a vector.
 }
 \examples{
 char_count("character")
