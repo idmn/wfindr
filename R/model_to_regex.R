@@ -1,3 +1,5 @@
+## rewrite char.spec for scrabble and anagram
+
 #' Build a regular expression to fit chosen parameters
 #' @description description
 #' @param model - pattern that a word should match. Is constructed of \code{.}
