@@ -8,11 +8,13 @@ model_to_regex(model = "*", allow = letters, ban = character(0),
   type = "usual")
 }
 \arguments{
-\item{model}{- pattern that a word should match. Is constructed of \code{.}
-possibly followed by {...} repetition quantifier, ...}
+\item{model}{- pattern that a word should match. Dot \code{.} stands for unknown
+character. It may be followed by \{...\} repetition quantifier
+ (i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
+ unknown characters.}
 
-\item{allow}{- characters allowed to be in a word. Can be listed in a
-single string or in a vector.}
+\item{allow}{- characters allowed to fill gaps in a word. Can be listed in a
+single string or in a vector. By default is set to \code{letters}.}
 
 \item{ban}{- characters not allowed to be in a word.}
 
@@ -21,7 +23,7 @@ Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"},
  or \code{"a"}. See details. (?)}
 }
 \description{
-description
+Build a regular expression to fit chosen parameters
 }
 \details{
 

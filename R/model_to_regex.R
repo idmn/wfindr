@@ -1,12 +1,12 @@
-## rewrite char.spec for scrabble and anagram
-
 #' Build a regular expression to fit chosen parameters
-#' @description description
-#' @param model - pattern that a word should match. Is constructed of \code{.}
-#'  possibly followed by {...} repetition quantifier, ...
-#' @param allow - characters allowed to be in a word. Can be listed in a
-#' single string or in a vector.
-#' @param ban - characters not allowed to be in a word.
+#' @param model - pattern that a word should match. Consists of letters and characters
+#' denoting unknown characters. Dot \code{.} stands for unknown
+#' character. It may be followed by \{...\} repetition quantifier
+#'  (i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
+#'  unknown characters.
+#' @param allow - characters allowed to fill gaps in a word. Can be listed in a
+#' single string or in a vector. By default is set to \code{letters}.
+#' @param ban - characters not allowed to fill gaps in a word.
 #' @param type - can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
 #' Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"},
 #'  or \code{"a"}. See details. (?)
@@ -25,17 +25,18 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
     check_model(model)
     type <- match.arg(type, c("usual", "scrabble", "anagram"))
 
-    ##check also words validity
-
-    allow %<>% char_count()
-    ban %<>% char_count()
-    names(allow) <- c("char", "allow")
-    names(ban) <- c("char", "ban")
-    char.spec <- merge(allow, ban, all.x = T)
+    allow.count <- char_count(allow)
+    ban.count <- char_count(ban)
+    names(allow.count) <- c("char", "allow")
+    names(ban.count) <- c("char", "ban")
+    char.spec <- merge(allow.count, ban.count, all.x = T)
     char.spec[is.na(char.spec)] <- 0
 
-    if (type == "usual") char.spec %<>% dplyr::mutate(max = allow & !ban)
-    else char.spec %<>% dplyr::mutate(max = pmax(allow - ban, 0))
+    if (type == "usual"){
+        char.spec %<>% dplyr::mutate(max = allow & !ban)
+    }else{
+        char.spec %<>% dplyr::mutate(max = pmax(allow - ban, 0))
+    }
     char.spec %<>% dplyr::select(char, max)
     char.spec %<>% dplyr::filter(max > 0)
 
@@ -46,14 +47,21 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
         gsub("\\*", paste0(chars.r,"*"), .) %>%
         paste0("^", ., "$")
     if (type != "usual"){
+        model.char.spec <- char_count(model) %>%
+            filter(!grepl("\\*|\\.|,|\\{|\\}|\\d",char))
+        names(model.char.spec) <- c("char", "max")
+        char.spec %<>% rbind(model.char.spec) %>%
+            group_by(char) %>%
+            summarise(max = sum(max)) %>%
+            ungroup()
         char.spec %<>% dplyr::mutate(
             look.ahead = paste0("([^", char, "]*", char, "[^", char, "]*)"))
     }
     switch (type,
         scrabble = {
             char.spec %<>% dplyr::mutate(
-                look.ahead = paste0("(?=^((", look.ahead, "{", 1, ",", max, "})|([^",
-                                    char, "]*))$)"))
+                look.ahead = paste0("(?=^((", look.ahead, "{", 1, ",", max,
+                                    "})|([^", char, "]*))$)"))
         },
         anagram = {
             char.spec %<>% dplyr::mutate(
