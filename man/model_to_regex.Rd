@@ -8,19 +8,33 @@ model_to_regex(model = "*", allow = letters, ban = character(0),
   type = "usual")
 }
 \arguments{
-\item{model}{- pattern that a word should match. Dot \code{.} stands for unknown
+\item{model}{pattern that a word should match. Consists of letters and
+unknown characters specifications. Dot \code{.} stands for unknown
 character. It may be followed by \{...\} repetition quantifier
- (i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
- unknown characters.}
+(i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
+unknown characters. See examples.\cr
+By default \code{model} is set to "*".}
 
-\item{allow}{- characters allowed to fill gaps in a word. Can be listed in a
+\item{allow}{characters allowed to fill gaps in a word. Can be listed in a
 single string or in a vector. By default is set to \code{letters}.}
 
-\item{ban}{- characters not allowed to be in a word.}
+\item{ban}{characters not allowed to fill gaps in a word.}
 
-\item{type}{- can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
-Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"},
- or \code{"a"}. See details. (?)}
+\item{type}{can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
+Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or \code{"a"}.\cr
+\code{type} defines how often allowed characters can be used to fill the gaps.
+Say, character appears \code{n} times in \code{allow} and
+\code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
+whatever the \code{type} is, this character won't be used to fill the gaps.
+Suppose \code{d > 0}.\cr
+\itemize{
+ \item If \code{type} is \code{"usual"} then the character is allowed to fill the
+ gaps \strong{unlimited} number of times. \cr
+ \item If \code{type} is \code{"scrabble"} then the character is allowed to
+ fill the gaps \strong{no more} than d times.
+ \item If \code{type} is \code{"anagram"} then the character should be used
+ \strong{exactly} d times.
+}}
 }
 \description{
 Build a regular expression to fit chosen parameters
@@ -28,10 +42,35 @@ Build a regular expression to fit chosen parameters
 \details{
 
 }
+\section{Warning}{
+
+If \code{type = "scrabble"} or \code{"anagram"}, output regex will contain
+perl-like syntax. So, to use it in \code{grep} or \code{gsub} for example,
+set \code{perl} parameter to \code{TRUE}.
+}
 \examples{
-model_to_regex("w..d")
-model_to_regex("p.{2,3}", ban = "aorp")
+## Regular expression to match all the 5-letter words starting with "c".
+model_to_regex("c.{4}")
+## Disallow "a" and "b".
+model_to_regex("c.{4}", ban = "ab")
+## Allow only "a" and "b" to fill the gap.
+model_to_regex("c.{4}", allow = "ab")
+## Allow "a", "b", and "c", but then ban "c" (result is the same as the previous example)
+model_to_regex("c.{4}", allow = "abc", ban = "c")
+
+## Regex to match all words that start with "p" and end with "zed".
+model_to_regex("p*zed")
+
+## Regex to match all the words that can be constructed of the word "thing".
 model_to_regex(allow = "thing", type = "scrabble")
+## Get at lest 4-letter words.
+model_to_regex(".{4,}", allow = "thing", type = "scrabble")
+
+## Regex to match anagrams of the word "thing"
 model_to_regex(allow = "thing", type = "anagram")
+
+}
+\seealso{
+\code{\link{find_word}} \code{\link{scrabble}} \code{\link{anagram}}
 }
 

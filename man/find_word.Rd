@@ -2,17 +2,56 @@
 % Please edit documentation in R/find_word.R
 \name{find_word}
 \alias{find_word}
-\title{Find words that fit the chosen parameters}
+\alias{find_word_l}
+\title{Find words that fit the chosen parameters.}
 \usage{
 find_word(model = "*", allow = letters, ban = character(0),
   type = "usual", words = words.eng)
+
+find_word_l(model = "*", allow = letters, ban = character(0),
+  type = "usual", words = words.eng)
+}
+\arguments{
+\item{model}{pattern that a word should match. Consists of letters and
+unknown characters specifications. Dot \code{.} stands for unknown
+character. It may be followed by \{...\} repetition quantifier
+(i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
+unknown characters. See examples.\cr
+By default \code{model} is set to "*".}
+
+\item{allow}{characters allowed to fill gaps in a word. Can be listed in a
+single string or in a vector. By default is set to \code{letters}.}
+
+\item{ban}{characters not allowed to fill gaps in a word.}
+
+\item{type}{can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
+Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or \code{"a"}.\cr
+\code{type} defines how often allowed characters can be used to fill the gaps.
+Say, character appears \code{n} times in \code{allow} and
+\code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
+whatever the \code{type} is, this character won't be used to fill the gaps.
+Suppose \code{d > 0}.\cr
+\itemize{
+ \item If \code{type} is \code{"usual"} then the character is allowed to fill the
+ gaps \strong{unlimited} number of times. \cr
+ \item If \code{type} is \code{"scrabble"} then the character is allowed to
+ fill the gaps \strong{no more} than d times.
+ \item If \code{type} is \code{"anagram"} then the character should be used
+ \strong{exactly} d times.
+}}
+
+\item{words}{vector of words to search within. By default is set to
+\code{\link{words.eng}}.}
+}
+\value{
+Character vector of found words.
 }
 \description{
-Find words that fit the chosen parameters
+Uses regex constructed by \code{\link{model_to_regex}} to search
+words. By default search is done among \code{\link{words.eng}}.
 }
-\examples{
-find_word("w..d")
-find_word(allow = "thing", type = "scrabble")
-find_word(allow = "thing", type = "anagram")
-}
+\section{Functions}{
+\itemize{
+\item \code{find_word_l}: ada
+}}
 
