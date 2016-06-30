@@ -30,7 +30,7 @@ Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or \code{"a"}.\cr
 Say, character appears \code{n} times in \code{allow} and
 \code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
 whatever the \code{type} is, this character won't be used to fill the gaps.
-Suppose \code{d > 0}.\cr
+For the case when \code{d > 0}:\cr
 \itemize{
  \item If \code{type} is \code{"usual"} then the character is allowed to fill the
  gaps \strong{unlimited} number of times. \cr
@@ -43,15 +43,13 @@ Suppose \code{d > 0}.\cr
 \item{words}{vector of words to search within. By default is set to
 \code{\link{words.eng}}.}
 }
-\value{
-Character vector of found words.
-}
 \description{
 Uses regex constructed by \code{\link{model_to_regex}} to search
-words. By default search is done among \code{\link{words.eng}}.
+words. By default the search is done among \code{\link{words.eng}}.\cr
+\code{find_word} returns a vector of found words, \code{find_word_l} returns
+a logical vector that can be used for subsetting.
 }
-\section{Functions}{
-\itemize{
-\item \code{find_word_l}: ada
-}}
+\seealso{
+\code{\link{scrabble}} \code{\link{anagram}}
+}
 

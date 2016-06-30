@@ -14,7 +14,7 @@
 #' Say, character appears \code{n} times in \code{allow} and
 #' \code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
 #' whatever the \code{type} is, this character won't be used to fill the gaps.
-#' Suppose \code{d > 0}.\cr
+#' For the case when \code{d > 0}:\cr
 #' \itemize{
 #'  \item If \code{type} is \code{"usual"} then the character is allowed to fill the
 #'  gaps \strong{unlimited} number of times. \cr

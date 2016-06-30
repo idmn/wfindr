@@ -3,6 +3,7 @@
 export(anagram)
 export(char_count)
 export(find_word)
+export(find_word_l)
 export(model_to_regex)
 export(scrabble)
 import(dplyr)

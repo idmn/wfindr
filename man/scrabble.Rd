@@ -10,6 +10,6 @@ scrabble(allow, model = "*", ban = character(0), words = words.eng)
 Find words that can be constructed from the specified letters
 }
 \examples{
-scrabble("abll")
+scrabble("scrablle")
 }
 
