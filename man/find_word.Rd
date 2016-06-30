@@ -50,6 +50,6 @@ words. By default the search is done among \code{\link{words.eng}}.\cr
 a logical vector that can be used for subsetting.
 }
 \seealso{
-\code{\link{scrabble}} \code{\link{anagram}}
+\code{\link{scrabble}}, \code{\link{anagram}}
 }
 

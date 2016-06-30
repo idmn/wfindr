@@ -24,17 +24,23 @@ find_word_l <- function(model = "*", allow = letters, ban = character(0),
 
 
 #' Find words that can be constructed from the specified letters
-#' @description
-#' @seealso \code{\link{find_word}}, \code{\link{anagram}}
+#' @description \code{scrabble} function finds the words that can be constructed
+#' from the specified set of letters. \cr
+#' \code{anagram} function finds the words that are permutations of the specified
+#' set of letters. Usually this set of letters is a word itself.\cr
+#' \code{scrabble} and \code{anagram} are functions built on top of
+#' the \code{\link{find_word}} function with parameter \code{type} set to \code{"scrabble"}
+#' or \code{"anagram"} respectively and \code{allow} parameter moved to the first place
+#' to simplify the usage (see examples).
+#' @seealso \code{\link{find_word}}
 #' @export
 scrabble <- function(allow, model = "*", ban = character(0), words = words.eng){
     find_word(model = model, allow = allow, ban = ban, type = "scrabble", words = words)
 }
 
-#' Find anagrams ...
-#' @seealso \code{\link{find_word}}, \code{\link{scrabble}}
+#' @rdname scrabble
 #' @export
-anagram <- function(allow, model = "*", words = words.eng){
+anagram <- function(allow, model = "*", ban = character(0), words = words.eng){
     find_word(model = model, allow = allow, type = "anagram", words = words)
 }
 
