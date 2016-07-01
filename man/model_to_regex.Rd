@@ -68,6 +68,6 @@ model_to_regex(allow = "thing", type = "anagram")
 
 }
 \seealso{
-\code{\link{find_word}} \code{\link{scrabble}} \code{\link{anagram}}
+\code{\link{find_word}}, \code{\link{scrabble}}, \code{\link{anagram}}
 }
 

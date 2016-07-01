@@ -1,6 +1,6 @@
 #' Characters count
 #' @description Calculates character frequencies in a vector.
-#' @param x - character vector, or a list that can be unlisted to a character vector.
+#' @param x character vector, or a list that can be unlisted to a character vector.
 #' @return data.frame with two columns: \code{char} - character and \code{count} -
 #' number of it's occurencies.
 #'

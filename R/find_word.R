@@ -54,7 +54,7 @@ find_word_l <- function(model = "*", allow = letters, ban = character(0),
 #' \code{anagram} finds words that are permutations of the specified
 #' set of letters. Usually this set of letters is a word itself.
 #'
-#' @param allow characters allowed to use to construct words
+#' @param allow characters allowed to use to construct words.
 #' @inheritParams model_to_regex
 #' @inheritParams find_word
 #' @details \code{scrabble} and \code{anagram} are functions built on top of
@@ -89,14 +89,3 @@ scrabble <- function(allow, model = "*", ban = character(0), words = wfindr::wor
 anagram <- function(allow, model = "*", ban = character(0), words = wfindr::words.eng){
     find_word(model = model, allow = allow, type = "anagram", words = words)
 }
-
-
-
-
-
-
-
-
-
-
-

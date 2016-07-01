@@ -11,7 +11,7 @@ scrabble(allow, model = "*", ban = character(0),
 anagram(allow, model = "*", ban = character(0), words = wfindr::words.eng)
 }
 \arguments{
-\item{allow}{characters allowed to use to construct words}
+\item{allow}{characters allowed to use to construct words.}
 
 \item{model}{pattern that a word should match. Consists of letters and
 unknown characters specifications. Dot \code{.} stands for unknown

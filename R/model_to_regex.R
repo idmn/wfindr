@@ -50,7 +50,7 @@
 #' ## Regex to match anagrams of the word "thing"
 #' model_to_regex(allow = "thing", type = "anagram")
 #'
-#' @seealso \code{\link{find_word}} \code{\link{scrabble}} \code{\link{anagram}}
+#' @seealso \code{\link{find_word}}, \code{\link{scrabble}}, \code{\link{anagram}}
 #'
 #' @export
 model_to_regex <- function(model = "*", allow = letters, ban = character(0),
@@ -118,7 +118,3 @@ check_model <- function(model){
     if(length(model)!=1)     stop(model.msg)
     if(!grepl(model.regex, model)) stop(model.msg)
 }
-
-
-
-

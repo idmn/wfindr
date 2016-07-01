@@ -7,7 +7,7 @@
 char_count(x)
 }
 \arguments{
-\item{x}{- character vector, or a list that can be unlisted to a character vector.}
+\item{x}{character vector, or a list that can be unlisted to a character vector.}
 }
 \value{
 data.frame with two columns: \code{char} - character and \code{count} -
