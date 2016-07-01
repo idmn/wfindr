@@ -14,10 +14,10 @@ find_word_l(model = "*", allow = letters, ban = character(0),
 \arguments{
 \item{model}{pattern that a word should match. Consists of letters and
 unknown characters specifications. Dot \code{.} stands for unknown
-character. It may be followed by \{...\} repetition quantifier
-(i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
-unknown characters. See examples.\cr
-By default \code{model} is set to "*".}
+character. It may be followed by \code{\{...\}} repetition quantifier
+(i.e. .\code{\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*}
+stands for unknown number of unknown characters. See examples.\cr
+By default \code{model} is set to \code{"*"}.}
 
 \item{allow}{characters allowed to fill gaps in a word. Can be listed in a
 single string or in a vector. By default is set to \code{letters}.}
@@ -48,6 +48,31 @@ Uses regex constructed by \code{\link{model_to_regex}} to search
 words. By default the search is done among \code{\link{words.eng}}.\cr
 \code{find_word} returns a vector of found words, \code{find_word_l} returns
 a logical vector that can be used for subsetting.
+}
+\examples{
+## Search 4-letter words starting with "c".
+find_word("c.{3}")
+## Disallow "a" and "b".
+find_word("c.{3}", ban = "ab")
+## Allow only "a" and "b" to fill the gap.
+find_word("c.{3}", allow = "ab")
+## Allow "a", "b", and "c", but then ban "c" (result is the same as the previous example)
+find_word("c.{3}", allow = "abc", ban = "c")
+
+## Find no more than 4-letter words that have "th" bigram
+library(magrittr)
+find_word(".{0,4}") \%>\% find_word("*th*", words = .)
+## count words that start with "th"
+sum(find_word_l("th*"))
+length(find_word("th*"))
+
+## Find words that can be constructed of the "thing" word's letters.
+find_word(allow = "thing", type = "scrabble")
+## Get at lest 4-letter words.
+find_word(".{4,}", allow = "thing", type = "scrabble")
+
+## Find anagrams of the word "thing"
+find_word(allow = "thing", type = "anagram")
 }
 \seealso{
 \code{\link{scrabble}}, \code{\link{anagram}}

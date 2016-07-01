@@ -10,10 +10,10 @@ model_to_regex(model = "*", allow = letters, ban = character(0),
 \arguments{
 \item{model}{pattern that a word should match. Consists of letters and
 unknown characters specifications. Dot \code{.} stands for unknown
-character. It may be followed by \{...\} repetition quantifier
-(i.e. .\{n\}, .\{n,\}, .\{n,m\}). Asterisk \code{*} stands for unknown number of
-unknown characters. See examples.\cr
-By default \code{model} is set to "*".}
+character. It may be followed by \code{\{...\}} repetition quantifier
+(i.e. .\code{\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*}
+stands for unknown number of unknown characters. See examples.\cr
+By default \code{model} is set to \code{"*"}.}
 
 \item{allow}{characters allowed to fill gaps in a word. Can be listed in a
 single string or in a vector. By default is set to \code{letters}.}

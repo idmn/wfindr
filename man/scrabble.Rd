@@ -9,15 +9,50 @@ scrabble(allow, model = "*", ban = character(0), words = words.eng)
 
 anagram(allow, model = "*", ban = character(0), words = words.eng)
 }
+\arguments{
+\item{allow}{characters allowed to use to construct words}
+
+\item{model}{pattern that a word should match. Consists of letters and
+unknown characters specifications. Dot \code{.} stands for unknown
+character. It may be followed by \code{\{...\}} repetition quantifier
+(i.e. .\code{\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*}
+stands for unknown number of unknown characters. See examples.\cr
+By default \code{model} is set to \code{"*"}.}
+
+\item{ban}{characters not allowed to fill gaps in a word.}
+
+\item{words}{vector of words to search within. By default is set to
+\code{\link{words.eng}}.}
+}
 \description{
-\code{scrabble} function finds the words that can be constructed
+\code{scrabble} finds words that can be constructed
 from the specified set of letters. \cr
-\code{anagram} function finds the words that are permutations of the specified
-set of letters. Usually this set of letters is a word itself.\cr
+\code{anagram} finds words that are permutations of the specified
+set of letters. Usually this set of letters is a word itself.
+}
+\details{
 \code{scrabble} and \code{anagram} are functions built on top of
-the \code{\link{find_word}} function with parameter \code{type} set to "scrabble"
-or "anagram" respectively and \code{allow} parameter moved to the first place
-to simplify the usage (see examples).
+the \code{\link{find_word}} function with parameter \code{type} set to \code{"scrabble"}
+or \code{"anagram"} respectively and \code{allow} parameter moved to the first place
+to simplify usage (see the first example).
+}
+\examples{
+## Find all words that can be constructed of the "thing" word letters
+scrabble("thing")
+## same as
+find_word(allow = "thing", type = "s")
+## take at least 4-letter words
+scrabble("thing", ".{4,}")
+## same as
+find_word(".{4,}", "thing", type = "s")
+
+## Pick 8 random letters and find words that can be constructed of them.
+library(magrittr)
+sample(letters, 8, T) \%>\% list(letters = ., words = scrabble(.))
+
+## Find anagrams of the word "thing"
+anagram("thing")
+
 }
 \seealso{
 \code{\link{find_word}}
