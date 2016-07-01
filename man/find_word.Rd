@@ -6,10 +6,10 @@
 \title{Find words that fit the chosen parameters.}
 \usage{
 find_word(model = "*", allow = letters, ban = character(0),
-  type = "usual", words = words.eng)
+  type = "usual", words = wfindr::words.eng)
 
 find_word_l(model = "*", allow = letters, ban = character(0),
-  type = "usual", words = words.eng)
+  type = "usual", words = wfindr::words.eng)
 }
 \arguments{
 \item{model}{pattern that a word should match. Consists of letters and

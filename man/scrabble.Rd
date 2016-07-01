@@ -5,9 +5,10 @@
 \alias{scrabble}
 \title{Find words that can be constructed from the specified letters}
 \usage{
-scrabble(allow, model = "*", ban = character(0), words = words.eng)
+scrabble(allow, model = "*", ban = character(0),
+  words = wfindr::words.eng)
 
-anagram(allow, model = "*", ban = character(0), words = words.eng)
+anagram(allow, model = "*", ban = character(0), words = wfindr::words.eng)
 }
 \arguments{
 \item{allow}{characters allowed to use to construct words}
@@ -48,7 +49,7 @@ find_word(".{4,}", "thing", type = "s")
 
 ## Pick 8 random letters and find words that can be constructed of them.
 library(magrittr)
-sample(letters, 8, T) \%>\% list(letters = ., words = scrabble(.))
+sample(letters, 8, TRUE) \%>\% list(letters = ., words = scrabble(.))
 
 ## Find anagrams of the word "thing"
 anagram("thing")

@@ -39,9 +39,6 @@ For the case when \code{d > 0}:\cr
 \description{
 Build a regular expression to fit chosen parameters
 }
-\details{
-
-}
 \section{Warning}{
 
 If \code{type = "scrabble"} or \code{"anagram"}, output regex will contain

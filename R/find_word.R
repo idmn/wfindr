@@ -36,14 +36,14 @@
 #' @seealso \code{\link{scrabble}}, \code{\link{anagram}}
 #' @export
 find_word <- function(model = "*", allow = letters, ban = character(0),
-                      type = "usual", words = words.eng){
+                      type = "usual", words = wfindr::words.eng){
     grep(model_to_regex(model, allow, ban, type), words, value = T, perl = T)
 }
 
 #' @rdname find_word
 #' @export
 find_word_l <- function(model = "*", allow = letters, ban = character(0),
-                        type = "usual", words = words.eng){
+                        type = "usual", words = wfindr::words.eng){
     grepl(model_to_regex(model, allow, ban, type), words, perl = T)
 }
 
@@ -80,13 +80,13 @@ find_word_l <- function(model = "*", allow = letters, ban = character(0),
 #' anagram("thing")
 #'
 #' @export
-scrabble <- function(allow, model = "*", ban = character(0), words = words.eng){
+scrabble <- function(allow, model = "*", ban = character(0), words = wfindr::words.eng){
     find_word(model = model, allow = allow, ban = ban, type = "scrabble", words = words)
 }
 
 #' @rdname scrabble
 #' @export
-anagram <- function(allow, model = "*", ban = character(0), words = words.eng){
+anagram <- function(allow, model = "*", ban = character(0), words = wfindr::words.eng){
     find_word(model = model, allow = allow, type = "anagram", words = words)
 }
 

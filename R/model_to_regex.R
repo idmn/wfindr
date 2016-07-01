@@ -24,8 +24,6 @@
 #'  \strong{exactly} d times.
 #' }
 #'
-#' @details
-#'
 #' @section Warning:
 #' If \code{type = "scrabble"} or \code{"anagram"}, output regex will contain
 #' perl-like syntax. So, to use it in \code{grep} or \code{gsub} for example,
@@ -57,6 +55,11 @@
 #' @export
 model_to_regex <- function(model = "*", allow = letters, ban = character(0),
                            type = "usual"){
+    ## to use magrittr with no notes from CRAN check
+    . = NULL
+    ## to use dplyr
+    char = max = look.ahead = NULL
+
     check_model(model)
     type <- match.arg(type, c("usual", "scrabble", "anagram"))
 
@@ -68,12 +71,12 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
     char.spec[is.na(char.spec)] <- 0
 
     if (type == "usual"){
-        char.spec %<>% dplyr::mutate(max = allow & !ban)
+        char.spec$max <- char.spec$allow & !char.spec$ban
     }else{
-        char.spec %<>% dplyr::mutate(max = pmax(allow - ban, 0))
+        char.spec$max <- pmax(char.spec$allow - char.spec$ban, 0)
     }
-    char.spec %<>% dplyr::select(char, max)
-    char.spec %<>% dplyr::filter(max > 0)
+    char.spec <- char.spec[, c("char", "max")]
+    char.spec <- char.spec[char.spec$max > 0,]
 
     chars.r <- paste(char.spec$char, collapse = "") %>%
         paste0("[", ., "]")
@@ -86,9 +89,9 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
             filter(!grepl("\\*|\\.|,|\\{|\\}|\\d",char))
         names(model.char.spec) <- c("char", "max")
         char.spec %<>% rbind(model.char.spec) %>%
-            group_by(char) %>%
-            summarise(max = sum(max)) %>%
-            ungroup()
+            dplyr::group_by(char) %>%
+            dplyr::summarise(max = sum(max)) %>%
+            dplyr::ungroup()
         char.spec %<>% dplyr::mutate(
             look.ahead = paste0("([^", char, "]*", char, "[^", char, "]*)"))
     }
