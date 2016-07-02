@@ -1,33 +1,29 @@
 #' Build a regular expression to fit chosen parameters
 #' @param model pattern that a word should match. Consists of letters and
-#' unknown characters specifications. Dot \code{.} stands for unknown
-#' character. It may be followed by \code{\{...\}} repetition quantifier
-#' (i.e. .\code{\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*}
-#' stands for unknown number of unknown characters. See examples.\cr
-#' By default \code{model} is set to \code{"*"}.
+#'   unknown characters specifications. Dot \code{.} stands for unknown
+#'   character. It may be followed by \code{\{...\}} repetition quantifier (i.e.
+#'   \code{.\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*} stands
+#'   for unknown number of unknown characters. See examples.\cr By default
+#'   \code{model} is set to \code{"*"}.
 #' @param allow characters allowed to fill gaps in a word. Can be listed in a
-#' single string or in a vector. By default is set to \code{letters}.
+#'   single string or in a vector. By default is set to \code{letters}.
 #' @param ban characters not allowed to fill gaps in a word.
 #' @param type can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
-#' Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or \code{"a"}.\cr
-#' \code{type} defines how often allowed characters can be used to fill the gaps.
-#' Say, character appears \code{n} times in \code{allow} and
-#' \code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
-#' whatever the \code{type} is, this character won't be used to fill the gaps.
-#' For the case when \code{d > 0}:\cr
-#' \itemize{
-#'  \item If \code{type} is \code{"usual"} then the character is allowed to fill the
-#'  gaps \strong{unlimited} number of times. \cr
-#'  \item If \code{type} is \code{"scrabble"} then the character is allowed to
-#'  fill the gaps \strong{no more} than d times.
-#'  \item If \code{type} is \code{"anagram"} then the character should be used
-#'  \strong{exactly} d times.
-#' }
+#'   Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or
+#'   \code{"a"}.\cr \code{type} defines how often allowed characters can be used
+#'   to fill the gaps. Say, character appears \code{n} times in \code{allow} and
+#'   \code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
+#'   whatever the \code{type} is, this character won't be used to fill the gaps.
+#'   For the case when \code{d > 0}:\cr \itemize{ \item If \code{type} is
+#'   \code{"usual"} then the character is allowed to fill the gaps
+#'   \strong{unlimited} number of times. \cr \item If \code{type} is
+#'   \code{"scrabble"} then the character is allowed to fill the gaps \strong{no
+#'   more} than d times. \item If \code{type} is \code{"anagram"} then the
+#'   character should be used \strong{exactly} d times. }
 #'
-#' @section Warning:
-#' If \code{type = "scrabble"} or \code{"anagram"}, output regex will contain
-#' perl-like syntax. So, to use it in \code{grep} or \code{gsub} for example,
-#' set \code{perl} parameter to \code{TRUE}.
+#' @section Warning: If \code{type = "scrabble"} or \code{"anagram"}, output
+#'   regex will contain perl-like syntax. So, to use it in \code{grep} or
+#'   \code{gsub} for example, set \code{perl} parameter to \code{TRUE}.
 #'
 #' @examples
 #' ## Regular expression to match all the 5-letter words starting with "c".
@@ -50,15 +46,16 @@
 #' ## Regex to match anagrams of the word "thing"
 #' model_to_regex(allow = "thing", type = "anagram")
 #'
-#' @seealso \code{\link{find_word}}, \code{\link{scrabble}}, \code{\link{anagram}}
+#' @seealso \code{\link{find_word}}, \code{\link{scrabble}},
+#'   \code{\link{anagram}}
 #'
 #' @export
 model_to_regex <- function(model = "*", allow = letters, ban = character(0),
                            type = "usual"){
     ## to use magrittr with no notes from CRAN check
-    . = NULL
+    . <- NULL
     ## to use dplyr
-    char = max = look.ahead = NULL
+    char <- max <- look.ahead <- NULL
 
     check_model(model)
     type <- match.arg(type, c("usual", "scrabble", "anagram"))
@@ -76,17 +73,17 @@ model_to_regex <- function(model = "*", allow = letters, ban = character(0),
         char.spec$max <- pmax(char.spec$allow - char.spec$ban, 0)
     }
     char.spec <- char.spec[, c("char", "max")]
-    char.spec <- char.spec[char.spec$max > 0,]
+    char.spec <- char.spec[char.spec$max > 0, ]
 
     chars.r <- paste(char.spec$char, collapse = "") %>%
         paste0("[", ., "]")
     regex <- model %>%
         gsub("\\.", chars.r, .) %>%
-        gsub("\\*", paste0(chars.r,"*"), .) %>%
+        gsub("\\*", paste0(chars.r, "*"), .) %>%
         paste0("^", ., "$")
     if (type != "usual"){
         model.char.spec <- char_count(model) %>%
-            filter(!grepl("\\*|\\.|,|\\{|\\}|\\d",char))
+            filter(!grepl("\\*|\\.|,|\\{|\\}|\\d", char))
         names(model.char.spec) <- c("char", "max")
         char.spec %<>% rbind(model.char.spec) %>%
             dplyr::group_by(char) %>%
@@ -114,7 +111,7 @@ check_model <- function(model){
     model.msg <- "Wrong model. Model should be a single string with following characters allowed:
     '.' possibly followed by {...} repetition quantifier, lowercase letters and '*'."
     model.regex <- "^([a-z]|\\*|(\\.(\\{[0-9]*,?[0-9]*\\})?))*$"
-    if(!is.character(model)) stop(model.msg)
-    if(length(model)!=1)     stop(model.msg)
-    if(!grepl(model.regex, model)) stop(model.msg)
+    if (!is.character(model)) stop(model.msg)
+    if (length(model) != 1)     stop(model.msg)
+    if (!grepl(model.regex, model)) stop(model.msg)
 }

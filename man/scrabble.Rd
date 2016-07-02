@@ -15,10 +15,10 @@ anagram(allow, model = "*", ban = character(0), words = wfindr::words.eng)
 
 \item{model}{pattern that a word should match. Consists of letters and
 unknown characters specifications. Dot \code{.} stands for unknown
-character. It may be followed by \code{\{...\}} repetition quantifier
-(i.e. .\code{\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*}
-stands for unknown number of unknown characters. See examples.\cr
-By default \code{model} is set to \code{"*"}.}
+character. It may be followed by \code{\{...\}} repetition quantifier (i.e.
+\code{.\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*} stands
+for unknown number of unknown characters. See examples.\cr By default
+\code{model} is set to \code{"*"}.}
 
 \item{ban}{characters not allowed to fill gaps in a word.}
 
@@ -26,19 +26,20 @@ By default \code{model} is set to \code{"*"}.}
 \code{\link{words.eng}}.}
 }
 \description{
-\code{scrabble} finds words that can be constructed
-from the specified set of letters. \cr
-\code{anagram} finds words that are permutations of the specified
-set of letters. Usually this set of letters is a word itself.
+\code{scrabble} finds words that can be constructed from the
+  specified set of letters. \cr \code{anagram} finds words that are
+  permutations of the specified set of letters. Usually this set of letters
+  is a word itself.
 }
 \details{
-\code{scrabble} and \code{anagram} are functions built on top of
-the \code{\link{find_word}} function with parameter \code{type} set to \code{"scrabble"}
-or \code{"anagram"} respectively and \code{allow} parameter moved to the first place
-to simplify usage (see the first example).
+\code{scrabble} and \code{anagram} are functions built on top of the
+  \code{\link{find_word}} function with parameter \code{type} set to
+  \code{"scrabble"} or \code{"anagram"} respectively and \code{allow}
+  parameter moved to the first place to simplify usage (see the first
+  example).
 }
 \examples{
-## Find all words that can be constructed of the "thing" word letters
+## Find all words that can be constructed of the "thing" word's letters
 scrabble("thing")
 ## same as
 find_word(allow = "thing", type = "s")

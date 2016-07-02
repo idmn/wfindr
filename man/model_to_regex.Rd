@@ -10,10 +10,10 @@ model_to_regex(model = "*", allow = letters, ban = character(0),
 \arguments{
 \item{model}{pattern that a word should match. Consists of letters and
 unknown characters specifications. Dot \code{.} stands for unknown
-character. It may be followed by \code{\{...\}} repetition quantifier
-(i.e. .\code{\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*}
-stands for unknown number of unknown characters. See examples.\cr
-By default \code{model} is set to \code{"*"}.}
+character. It may be followed by \code{\{...\}} repetition quantifier (i.e.
+\code{.\{n\}}, \code{.\{n,\}}, \code{.\{n,m\}}). Asterisk \code{*} stands
+for unknown number of unknown characters. See examples.\cr By default
+\code{model} is set to \code{"*"}.}
 
 \item{allow}{characters allowed to fill gaps in a word. Can be listed in a
 single string or in a vector. By default is set to \code{letters}.}
@@ -21,29 +21,25 @@ single string or in a vector. By default is set to \code{letters}.}
 \item{ban}{characters not allowed to fill gaps in a word.}
 
 \item{type}{can be \code{"usual"}, \code{"scrabble"}, or \code{"anagram"}.
-Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or \code{"a"}.\cr
-\code{type} defines how often allowed characters can be used to fill the gaps.
-Say, character appears \code{n} times in \code{allow} and
+Abbreviated input is allowed: e.g. \code{"u"}, \code{"s"}, or
+\code{"a"}.\cr \code{type} defines how often allowed characters can be used
+to fill the gaps. Say, character appears \code{n} times in \code{allow} and
 \code{m} times in \code{ban}. If \code{d = n - m} is less or equal to zero,
 whatever the \code{type} is, this character won't be used to fill the gaps.
-For the case when \code{d > 0}:\cr
-\itemize{
- \item If \code{type} is \code{"usual"} then the character is allowed to fill the
- gaps \strong{unlimited} number of times. \cr
- \item If \code{type} is \code{"scrabble"} then the character is allowed to
- fill the gaps \strong{no more} than d times.
- \item If \code{type} is \code{"anagram"} then the character should be used
- \strong{exactly} d times.
-}}
+For the case when \code{d > 0}:\cr \itemize{ \item If \code{type} is
+\code{"usual"} then the character is allowed to fill the gaps
+\strong{unlimited} number of times. \cr \item If \code{type} is
+\code{"scrabble"} then the character is allowed to fill the gaps \strong{no
+more} than d times. \item If \code{type} is \code{"anagram"} then the
+character should be used \strong{exactly} d times. }}
 }
 \description{
 Build a regular expression to fit chosen parameters
 }
 \section{Warning}{
-
-If \code{type = "scrabble"} or \code{"anagram"}, output regex will contain
-perl-like syntax. So, to use it in \code{grep} or \code{gsub} for example,
-set \code{perl} parameter to \code{TRUE}.
+ If \code{type = "scrabble"} or \code{"anagram"}, output
+  regex will contain perl-like syntax. So, to use it in \code{grep} or
+  \code{gsub} for example, set \code{perl} parameter to \code{TRUE}.
 }
 \examples{
 ## Regular expression to match all the 5-letter words starting with "c".
@@ -68,6 +64,7 @@ model_to_regex(allow = "thing", type = "anagram")
 
 }
 \seealso{
-\code{\link{find_word}}, \code{\link{scrabble}}, \code{\link{anagram}}
+\code{\link{find_word}}, \code{\link{scrabble}},
+  \code{\link{anagram}}
 }
 
