@@ -1,18 +1,26 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-wfindr
-======
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+# wfindr
 
 [![Build Status](https://travis-ci.org/idmn/wfindr.png?branch=master)](https://travis-ci.org/idmn/wfindr)
 
-Crossword, scrabble and anagram solver
---------------------------------------
+## Crossword, scrabble and anagram solver
 
 This package provides a large english words list and tools to find words by patterns. In particular, anagram finder and scrabble word finder.
 
 ### How to install
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 devtools::install_github("idmn/wfindr")
 ```
 
@@ -20,13 +28,12 @@ devtools::install_github("idmn/wfindr")
 
 Describe a pattern that a word should match by marking unknown letters.
 
--   Unknown letter is denoted by dot `"."`.
--   Dot may be followed by regex `{...}` repetition quantifier. Namely, `.{n}` means exactly n unknown letters, `.{n,}` - n or more, `.{n, m}` - from n to m.
--   Asterisk `*` denotes unkonwn number of unknown letters.
+* Unknown letter is denoted by dot `"."`.
+* Dot may be followed by regex `{...}` repetition quantifier. Namely, `.{n}` means exactly n unknown letters, `.{n,}` - n or more, `.{n, m}` - from n to m.
+* Asterisk `*` denotes unkonwn number of unknown letters.
 
-Then pass this pattern to a `find_word` function. Examples:
-
-``` r
+Then pass this pattern to a `find_word` function. Examples: 
+```{r, eval=FALSE, include=TRUE}
 #> words starting with "aa"
 find_word("aa*")
 #> 4-letter words stating with "w" and ending with "d"
@@ -36,48 +43,36 @@ find_word(".{30,}")
 ```
 
 You can also specify letters that you don't want to be used to fill the gaps with `ban` argument.
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 find_word("w..d", ban = "oe")
 ```
 
 Or you can determine the list of letters to be used with `allow` argument.
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 find_word("w..d", allow = "oe")
 ```
 
 ### Scrabble solver
-
 To find words that can be constructed from the specified set of letters, use `scrabble` function
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 ## words constructed from the "thing" word's letters
 scrabble("thing")
 ```
-
-This function is actually built on top of the `find_word` function. To give you an idea, the previous call is equivalent to this:
-
-``` r
+This function is actually built on top of the `find_word` function. To give you an idea, the previous call is equivalent to this: 
+```{r, eval=FALSE, include=TRUE}
 find_word(allow = "thing", type = "scrabble")
 ```
-
 It is also possible to specify a pattern in `scrabble`, as it was in `find_word`. For, example, to get at least 4-letter words:
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 scrabble("thing", ".{4,}")
 ```
 
 ### Anagram solver
-
 To find anagrams, use `anagram` function.
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 anagram("thing", ".{4,}")
 ```
-
 This function is also built on top of `find_word` and the previous call is equivalent to
-
-``` r
+```{r, eval=FALSE, include=TRUE}
 find_word(allow = "thing", type = "anagram")
 ```
