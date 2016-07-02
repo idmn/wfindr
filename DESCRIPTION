@@ -1,5 +1,5 @@
 Package: wfindr
-Title: Crossword, scrabble and anagram solver
+Title: Crossword, Scrabble and Anagram Solver
 Version: 0.1.0
 Date: 2016-06-07
 Authors@R: person("Iaroslav", "Domin", email = "ya.domin@gmail.com", role = c("aut", "cre"))
