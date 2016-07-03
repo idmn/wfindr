@@ -3,7 +3,7 @@
 wfindr
 ======
 
-[![Build Status](https://travis-ci.org/idmn/wfindr.png?branch=master)](https://travis-ci.org/idmn/wfindr)
+[![Build Status](https://travis-ci.org/idmn/wfindr.png?branch=master)](https://travis-ci.org/idmn/wfindr)[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wfindr)](https://cran.r-project.org/package=wfindr)
 
 Crossword, scrabble and anagram solver
 --------------------------------------
@@ -11,6 +11,12 @@ Crossword, scrabble and anagram solver
 This package provides a large English words list and tools to find words by patterns. In particular, anagram finder and scrabble word finder.
 
 ### How to install
+
+``` r
+install.packages("wfindr")
+```
+
+or
 
 ``` r
 devtools::install_github("idmn/wfindr")
