@@ -22,7 +22,7 @@ Describe a pattern that a word should match by marking unknown letters.
 
 -   Unknown letter is denoted by dot `"."`.
 -   Dot may be followed by regex `{...}` repetition quantifier. Namely, `.{n}` means exactly n unknown letters, `.{n,}` - n or more, `.{n, m}` - from n to m.
--   Asterisk `*` denotes unkonwn number of unknown letters.
+-   Asterisk `*` denotes unknown number of unknown letters.
 
 Then pass this pattern to a `find_word` function. Examples:
 
@@ -52,7 +52,7 @@ find_word("w..d", allow = "oe")
 To find words that can be constructed from the specified set of letters, use `scrabble` function
 
 ``` r
-## words constructed from the "thing" word's letters
+#> words constructed from the "thing" word's letters
 scrabble("thing")
 ```
 
@@ -73,7 +73,7 @@ scrabble("thing", ".{4,}")
 To find anagrams, use `anagram` function.
 
 ``` r
-anagram("thing", ".{4,}")
+anagram("thing")
 ```
 
 This function is also built on top of `find_word` and the previous call is equivalent to
