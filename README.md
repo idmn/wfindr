@@ -8,7 +8,7 @@ wfindr
 Crossword, scrabble and anagram solver
 --------------------------------------
 
-This package provides a large english words list and tools to find words by patterns. In particular, anagram finder and scrabble word finder.
+This package provides a large English words list and tools to find words by patterns. In particular, anagram finder and scrabble word finder.
 
 ### How to install
 
