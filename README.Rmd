@@ -70,7 +70,7 @@ scrabble("thing", ".{4,}")
 ### Anagram solver
 To find anagrams, use `anagram` function.
 ```{r, eval=FALSE, include=TRUE}
-anagram("thing", ".{4,}")
+anagram("thing")
 ```
 This function is also built on top of `find_word` and the previous call is equivalent to
 ```{r, eval=FALSE, include=TRUE}
